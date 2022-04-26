@@ -31,9 +31,17 @@ function app(people) {
         case "no":
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
-            searchResults = searchByTraits(people);
-            alert(searchResults)
-            break;
+            let oneOrMany = prompt("Would you like to search by one or multiple traits? Enter 'one' or 'many'").toLowerCase();
+            switch (oneOrMany) {
+                case "one":
+                    searchResults = searchByTrait(people);
+                    alert(searchResults) 
+                    break;           
+                case "many":
+                    searchResults = searchByTraits(people);
+                    alert(searchResults)
+                    break;
+            }
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
             app(people);
@@ -249,12 +257,47 @@ function findPersonDescendants(person, people){
 
 }
 
-function searchByTraits(people){
+function searchByTrait(people){
     let displayOption = prompt(
-        `You can search for people by their traits.\nEnter a trait:\n"gender"\n"height"\n"weight"\n"occupation"\n"dob for date of birth"`
+        `You can search for people by their trait.\nEnter a trait:\n"gender"\n"height"\n"weight"\n"occupation"\n"'dob' for date of birth"`
     );
     let input;
     switch (displayOption) {
+        case "gender":
+            input = searchFor("gender")
+            break;
+        case "height":
+           input = searchFor("height")
+           break;
+        case "weight":
+            input = searchFor("weight")
+            break;
+        case "occupation":
+            input = searchFor("occupation")
+            break;
+        case "dob":
+            input = searchFor("dob")
+            break;
+        case "restart":
+            break;
+        case "quit":
+            break;
+        default:
+            break;
+    }
+    let searchResults = searchBy(displayOption, input, people)
+    let searchResultsFiltered = listNames(searchResults, "Search Results")
+    return searchResultsFiltered
+    
+}
+
+function searchByTraits(people){
+    let displayOption = prompt(
+        `You can search for people by their trait.\nEnter a trait:\n"gender"\n"height"\n"weight"\n"occupation"\n"'dob' for date of birth"`
+    );
+    let input;
+    let searchOptions = displayOption.split(" ")
+    switch (searchOptions) {
         case "gender":
             input = searchFor("gender")
             break;
