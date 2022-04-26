@@ -158,10 +158,10 @@ function findPersonFamily(person, people){
 }
 function listNames(people, relationship){
     let nameList = people.map(function(el){
-        return `\n${el.firstName} ${el.lastName}\n`
+        return `\n${el.firstName} ${el.lastName}`
     })
     if(people.length > 0){
-        return `${relationship}${nameList}\n`      
+        return `\n${relationship}${nameList}\n`      
     }
     else{
         return `\nNo ${relationship} in the system.\n`
@@ -204,7 +204,36 @@ function findPersonSiblings(person, people){
     let personSiblings = listNames(siblings, 'Siblings:')
     return personSiblings
 }
+function findPersonChildren(person, people){
+    let children = people.filter(function(el){
+        if(el.parents.includes(person.id)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+    return children
+}
+function findPersonDescendants(person, people){
+    let descendants = `Descendants:\n`
+    let children = findPersonChildren(person, people)
+    descendants += listNames(children,'Children:');
+    let hasChildren = children.filter(function(el){
+        let grandKid = findPersonChildren(el, people)
+        if (grandKid.length == 0){
+            return false
+        }
+        else{
+            
+            return true
+        }
+    })
+    let grandchildren = findPersonChildren(hasChildren[0], people)
+    descendants += listNames(grandchildren,'Grandchildren:')
+    return descendants
 
+}
 /**
  * This function's purpose is twofold:
  * First, to generate a prompt with the value passed in to the question parameter.
