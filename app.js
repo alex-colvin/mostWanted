@@ -151,14 +151,24 @@ function displayPerson(person) {
 }
 // End of displayPerson()
 function findPersonFamily(person, people){
-    let family = `${person.firstName} ${person.lastName} family members are:\n`
     family += findPersonSpouse(person, people)
     family += findPersonSiblings(person, people)
     family += findPersonParents(person, people)
     return family
 }
+function listNames(people, relationship){
+    let nameList = people.map(function(el){
+        return `\n${el.firstName} ${el.lastName}\n`
+    })
+    if(people.length > 0){
+        return `${relationship}${nameList}\n`      
+    }
+    else{
+        return `\nNo ${relationship} in the system.\n`
+    }
+
+}
 function findPersonSpouse(person, people){
-    let personSpouse = ``
     let spouse = people.filter(function(el){
         if(person.currentSpouse == el.id){
             return true
@@ -167,16 +177,10 @@ function findPersonSpouse(person, people){
             return false
         } 
     })
-    if(spouse.length == 0){
-        personSpouse += `\nNo spouse in the system.\n`; 
-    }
-    else if(spouse.length == 1){
-        personSpouse += `\nSpouse:\n${spouse[0].firstName} ${spouse[0].lastName}\n`;
-    }
-    return personSpouse
+    let spouseList = listNames(spouse, 'Spouse:')
+    return spouseList
 }
 function findPersonParents(person, people){
-    let personParents = ``
     let parents = people.filter(function(el){
         if(person.parents.includes(el.id)){
                 return true
@@ -184,21 +188,11 @@ function findPersonParents(person, people){
             else{
                 return false
             }   
-        })
-       
-    let parentList = parents.map(function(el){
-        return `\n${el.firstName} ${el.lastName}`
-    })
-    if(parents.length > 0){
-        personParents += `\nParents:${parentList}\n`
-    }
-    else{
-        personParents += `\nNo parents in the system.\n`
-        }
-    return personParents    
+        })      
+    let parentList = listNames(parents, 'Parents:')
+    return parentList   
 }
 function findPersonSiblings(person, people){
-    let personSiblings = ``
     let siblings = people.filter(function(el){
         if((person.parents.includes(el.parents[0]) || person.parents.includes(el.parents[1])) && person.id != el.id){
             return true;
@@ -207,17 +201,10 @@ function findPersonSiblings(person, people){
             return false;
         }
     })
-    let siblingList = siblings.map(function(el){
-        return `\n${el.firstName} ${el.lastName}`
-    })
-    if(siblings.length > 0){
-        personSiblings += `\nSiblings:${siblingList}\n`        
-    }
-    else{
-        personSiblings += `\nNo siblings in the system.\n`
-    }
+    let personSiblings = listNames(siblings, 'Siblings:')
     return personSiblings
 }
+
 /**
  * This function's purpose is twofold:
  * First, to generate a prompt with the value passed in to the question parameter.
