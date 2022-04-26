@@ -151,7 +151,7 @@ function displayPerson(person) {
 }
 // End of displayPerson()
 function findPersonFamily(person, people){
-    let family = `${person.firstName} ${person.lastName} family members are:`
+    let family = `${person.firstName} ${person.lastName} family members are:\n`
     let parents = people.filter(function(el){
         if(person.parents.includes(el.id)){
                 return true
@@ -161,16 +161,11 @@ function findPersonFamily(person, people){
             }   
         })
        
-    if(parents.length == 1){
-        family += `\nParents: ${parents[0].firstName} ${parents[0].lastName}\n`;
-    }
-    else if(parents.length == 2){
-        family += `\nParents: ${parents[0].firstName} ${parents[0].lastName}\n${parents[1].firstName} ${parents[1].lastName}`;
-    }
-    else if(parents.length == 0){
-        family += `\nThere are no known parents.`
-    }
+    let parentList = parents.map(function(el){
+        return `\n${el.firstName} ${el.lastName}`
+    })
 
+    family += `\nParents:${parentList}\n`
     let spouse = people.filter(function(el){
         if(person.currentSpouse == el.id){
             return true
@@ -181,11 +176,26 @@ function findPersonFamily(person, people){
         
     })
     if(spouse.length == 0){
-        family += `\nNo known spouse.`; 
+        family += `\nNo known spouse\n.`; 
     }
     else if(spouse.length == 1){
-        family += `\nSpouse: ${spouse[0].firstName} ${spouse[0].lastName}\n`;
+        family += `\nSpouse:\n${spouse[0].firstName} ${spouse[0].lastName}\n`;
     }
+    //filter people list
+    //filter parents list
+    //logic if current parent ID match
+    let siblings = people.filter(function(el){
+        if((person.parents.includes(el.parents[0]) || person.parents.includes(el.parents[1])) && person.id != el.id){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+    let siblingList = siblings.map(function(el){
+        return `\n${el.firstName} ${el.lastName}`
+    })
+    family += `\nSiblings:${siblingList}`
     return family
 }
 /**
