@@ -152,6 +152,31 @@ function displayPerson(person) {
 // End of displayPerson()
 function findPersonFamily(person, people){
     let family = `${person.firstName} ${person.lastName} family members are:\n`
+    family += findPersonSpouse(person, people)
+    family += findPersonSiblings(person, people)
+    family += findPersonParents(person, people)
+    return family
+}
+function findPersonSpouse(person, people){
+    let personSpouse = ``
+    let spouse = people.filter(function(el){
+        if(person.currentSpouse == el.id){
+            return true
+        }
+        else{
+            return false
+        } 
+    })
+    if(spouse.length == 0){
+        personSpouse += `\nNo spouse in the system.\n`; 
+    }
+    else if(spouse.length == 1){
+        personSpouse += `\nSpouse:\n${spouse[0].firstName} ${spouse[0].lastName}\n`;
+    }
+    return personSpouse
+}
+function findPersonParents(person, people){
+    let personParents = ``
     let parents = people.filter(function(el){
         if(person.parents.includes(el.id)){
                 return true
@@ -165,33 +190,15 @@ function findPersonFamily(person, people){
         return `\n${el.firstName} ${el.lastName}`
     })
     if(parents.length > 0){
-        family += `\nParents:${parentList}\n`
+        personParents += `\nParents:${parentList}\n`
     }
     else{
-            family += `\nNo parents in the system.\n`
+        personParents += `\nNo parents in the system.\n`
         }
-
-    let spouse = people.filter(function(el){
-        if(person.currentSpouse == el.id){
-            return true
-        }
-        else{
-            return false
-        }
-        
-    })
-   
-
-
-    if(spouse.length == 0){
-        family += `\nNo spouse in the system.\n`; 
-    }
-    else if(spouse.length == 1){
-        family += `\nSpouse:\n${spouse[0].firstName} ${spouse[0].lastName}\n`;
-    }
-    //filter people list
-    //filter parents list
-    //logic if current parent ID match
+    return personParents    
+}
+function findPersonSiblings(person, people){
+    let personSiblings = ``
     let siblings = people.filter(function(el){
         if((person.parents.includes(el.parents[0]) || person.parents.includes(el.parents[1])) && person.id != el.id){
             return true;
@@ -204,12 +211,12 @@ function findPersonFamily(person, people){
         return `\n${el.firstName} ${el.lastName}`
     })
     if(siblings.length > 0){
-        family += `\nSiblings:${siblingList}`        
+        personSiblings += `\nSiblings:${siblingList}\n`        
     }
     else{
-        family += `\nNo siblings in the system.\n`
+        personSiblings += `\nNo siblings in the system.\n`
     }
-    return family
+    return personSiblings
 }
 /**
  * This function's purpose is twofold:
