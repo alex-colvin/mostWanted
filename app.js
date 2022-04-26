@@ -32,6 +32,7 @@ function app(people) {
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
             searchResults = searchByTraits(people);
+            alert(searchResults)
             break;
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
@@ -229,13 +230,79 @@ function findPersonDescendants(person, people){
             return true
         }
     })
-    let grandchildren = findPersonChildren(hasChildren[0], people)
-    descendants += listNames(grandchildren,'Grandchildren:')
+    let grandchildren = hasChildren.map(function(el){
+        let grandKids =
+        findPersonChildren(el, people)
+        return grandKids
+    })
+    
+    // let grandchildren2 = grandchildren.map(function(el){
+    //     let grandKids2 = listNames(grandchildren,'Grandchildren:')
+    //     return grandKids2
+    // })
+    
+    
+    
+    
+    descendants += listNames(grandchildren[0], "Grandchildren")
     return descendants
 
 }
+
+function searchByTraits(people){
+    let displayOption = prompt(
+        `You can search for people by their traits.\nEnter a trait:\n"gender"\n"height"\n"weight"\n"occupation"\n"dob for date of birth"`
+    );
+    let input;
+    switch (displayOption) {
+        case "gender":
+            input = searchFor("gender")
+            break;
+        case "height":
+           input = searchFor("height")
+           break;
+        case "weight":
+            input = searchFor("weight")
+            break;
+        case "occupation":
+            input = searchFor("occupation")
+            break;
+        case "dob":
+            input = searchFor("dob")
+            break;
+        case "restart":
+            break;
+        case "quit":
+            break;
+        default:
+            break;
+    }
+    let searchResults = searchBy(displayOption, input, people)
+    let searchResultsFiltered = listNames(searchResults, "Search Results")
+    return searchResultsFiltered
+    
+}
+
+function searchFor(category){
+    let input = prompt(`Enter a ${category}`)
+    return input;
+}
+
+function searchBy(category, argument, people){
+    let results = people.filter(function(el){
+        if(el[category] == argument){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+    return results
+}
+
+
 /**
- * This function's purpose is twofold:
+ * This function's purposeis twofold:
  * First, to generate a prompt with the value passed in to the question parameter.
  * Second, to ensure the user input response has been validated.
  * @param {String} question     A string that will be passed into prompt().
