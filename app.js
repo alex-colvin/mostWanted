@@ -66,7 +66,7 @@ function mainMenu(person, people) {
         case "info":
             //! TODO #1: Utilize the displayPerson function //////////////////////////////////////////
             // HINT: Look for a person-object stringifier utility function to help
-            let personInfo = displayPerson(person[0], people);
+            let personInfo = displayPerson(person[0]);
             alert(personInfo);
             break;
         case "family":
@@ -137,7 +137,7 @@ function displayPeople(people) {
  * in order to easily send the information to the user in the form of an alert().
  * @param {Object} person       A singular object.
  */
-function displayPerson(person, people) {
+function displayPerson(person) {
     let personInfo = `First Name: ${person.firstName}\n`;
     personInfo += `Last Name: ${person.lastName}\n`;
     personInfo += `Gender: ${person.gender}\n`;
@@ -150,7 +150,44 @@ function displayPerson(person, people) {
     alert(personInfo);
 }
 // End of displayPerson()
+function findPersonFamily(person, people){
+    let family = `${person.firstName} ${person.lastName} family members are:`
+    let parents = people.filter(function(el){
+        if(person.parents.includes(el.id)){
+                return true
+            }
+            else{
+                return false
+            }   
+        })
+       
+    if(parents.length == 1){
+        family += `\nParents: ${parents[0].firstName} ${parents[0].lastName}\n`;
+    }
+    else if(parents.length == 2){
+        family += `\nParents: ${parents[0].firstName} ${parents[0].lastName}\n${parents[1].firstName} ${parents[1].lastName}`;
+    }
+    else if(parents.length == 0){
+        family += `\nThere are no known parents.`
+    }
 
+    let spouse = people.filter(function(el){
+        if(person.currentSpouse == el.id){
+            return true
+        }
+        else{
+            return false
+        }
+        
+    })
+    if(spouse.length == 0){
+        family += `\nNo known spouse.`; 
+    }
+    else if(spouse.length == 1){
+        family += `\nSpouse: ${spouse[0].firstName} ${spouse[0].lastName}\n`;
+    }
+    return family
+}
 /**
  * This function's purpose is twofold:
  * First, to generate a prompt with the value passed in to the question parameter.
