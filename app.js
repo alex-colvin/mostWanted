@@ -164,8 +164,13 @@ function findPersonFamily(person, people){
     let parentList = parents.map(function(el){
         return `\n${el.firstName} ${el.lastName}`
     })
+    if(parents.length > 0){
+        family += `\nParents:${parentList}\n`
+    }
+    else{
+            family += `\nNo parents in the system.\n`
+        }
 
-    family += `\nParents:${parentList}\n`
     let spouse = people.filter(function(el){
         if(person.currentSpouse == el.id){
             return true
@@ -175,8 +180,11 @@ function findPersonFamily(person, people){
         }
         
     })
+   
+
+
     if(spouse.length == 0){
-        family += `\nNo known spouse\n.`; 
+        family += `\nNo spouse in the system.\n`; 
     }
     else if(spouse.length == 1){
         family += `\nSpouse:\n${spouse[0].firstName} ${spouse[0].lastName}\n`;
@@ -195,7 +203,12 @@ function findPersonFamily(person, people){
     let siblingList = siblings.map(function(el){
         return `\n${el.firstName} ${el.lastName}`
     })
-    family += `\nSiblings:${siblingList}`
+    if(siblings.length > 0){
+        family += `\nSiblings:${siblingList}`        
+    }
+    else{
+        family += `\nNo siblings in the system.\n`
+    }
     return family
 }
 /**
