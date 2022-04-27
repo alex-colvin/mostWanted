@@ -249,9 +249,6 @@ function findPersonDescendants(person, people){
     //     return grandKids2
     // })
     
-    
-    
-    
     descendants += listNames(grandchildren[0], "Grandchildren")
     return descendants
 
@@ -293,37 +290,58 @@ function searchByTrait(people){
 
 function searchByTraits(people){
     let displayOption = prompt(
-        `You can search for people by their trait.\nEnter a trait:\n"gender"\n"height"\n"weight"\n"occupation"\n"'dob' for date of birth"`
+        `You can search for people by their traits.\nEnter a trait:\n"gender"\n"height"\n"weight"\n"occupation"\n"'dob' for date of birth"\n"eyecolor"\nex: weight 180:eyecolor blue`
     );
-    let input;
-    let searchOptions = displayOption.split(" ")
-    switch (searchOptions) {
-        case "gender":
-            input = searchFor("gender")
-            break;
-        case "height":
-           input = searchFor("height")
-           break;
-        case "weight":
-            input = searchFor("weight")
-            break;
-        case "occupation":
-            input = searchFor("occupation")
-            break;
-        case "dob":
-            input = searchFor("dob")
-            break;
-        case "restart":
-            break;
-        case "quit":
-            break;
-        default:
-            break;
-    }
-    let searchResults = searchBy(displayOption, input, people)
-    let searchResultsFiltered = listNames(searchResults, "Search Results")
-    return searchResultsFiltered
+    let formattedInput = splitInput(displayOption)
+
+    let results = searchByMany(formattedInput, people)
+
     
+    let searchResults = listNames(results, "Search Results")
+    return searchResults
+
+
+
+
+
+
+    // let input;
+    // let searchOptions = displayOption.split(" ")
+    // switch (searchOptions) {
+    //     case "gender":
+    //         input = searchFor("gender")
+    //         break;
+    //     case "height":
+    //        input = searchFor("height")
+    //        break;
+    //     case "weight":
+    //         input = searchFor("weight")
+    //         break;
+    //     case "occupation":
+    //         input = searchFor("occupation")
+    //         break;
+    //     case "dob":
+    //         input = searchFor("dob")
+    //         break;
+    //     case "restart":
+    //         break;
+    //     case "quit":
+    //         break;
+    //     default:
+    //         break;
+    // }
+    // let searchResults = searchBy(displayOption, input, people)
+    // let searchResultsFiltered = listNames(searchResults, "Search Results")
+    // return searchResultsFiltered
+    
+}
+
+function splitInput(string){
+    let args = string.split(':')
+    let args2 = args.map(function(el){
+        return el.split(' ')
+    })
+    return args2
 }
 
 function searchFor(category){
@@ -342,6 +360,26 @@ function searchBy(category, argument, people){
     })
     return results
 }
+
+function searchByMany(list, people){
+    let results = people.filter(function(el){
+        for(let i=0; i < list.length; i++){
+            let category = list[i][0]
+            let argument = list[i][1]
+            if(el[category] == argument && i == (list.length-1)){
+                return true;
+            }
+            else if(el[list[i][0]] == list[i][1]){
+                continue;
+            }
+            else{
+                return false;
+            }
+        }
+    })
+    return results
+}
+
 
 
 /**
