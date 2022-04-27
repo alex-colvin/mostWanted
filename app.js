@@ -31,7 +31,7 @@ function app(people) {
         case "no":
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
-            let oneOrMany = prompt("Would you like to search by one or multiple traits? Enter 'one' or 'many'").toLowerCase();
+            let oneOrMany = promptFor("Would you like to search by one or multiple traits? Enter 'one' or 'many'", chars).toLowerCase();
             switch (oneOrMany) {
                 case "one":
                     searchResults = searchByTrait(people);
@@ -67,8 +67,8 @@ function mainMenu(person, people) {
         // Restarts app() from the very beginning
         return app(people);
     }
-    let displayOption = prompt(
-        `Found ${person[0].firstName} ${person[0].lastName}. Do you want to know their 'info', 'family', or 'descendants'?\nType the option you want or type 'restart' or 'quit'.`
+    let displayOption = promptFor(
+        `Found ${person[0].firstName} ${person[0].lastName}. Do you want to know their 'info', 'family', or 'descendants'?\nType the option you want or type 'restart' or 'quit'.`, chars
     );
     // Routes our application based on the user's input
     switch (displayOption) {
@@ -274,6 +274,9 @@ function searchByTrait(people){
         case "dob":
             input = searchFor("dob")
             break;
+        case "eyeColor":
+            input = searchFor("eyeColor")
+            break;
         case "restart":
             break;
         case "quit":
@@ -291,48 +294,10 @@ function searchByTraits(people){
     let displayOption = promptFor(
         `You can search for people by their traits.\nEnter a trait:\n"gender"\n"height"\n"weight"\n"occupation"\n"'dob' for date of birth"\n"eyeColor"\nex: weight 180:eyeColor blue`, traitVal
     );
-    let formattedInput = splitInput(displayOption)
-
-    let results = searchByMany(formattedInput, people)
-
-    
-    let searchResults = listNames(results, "Search Results")
+    let formattedInput = splitInput(displayOption);
+    let results = searchByMany(formattedInput, people);
+    let searchResults = listNames(results, "Search Results");
     return searchResults
-
-
-
-
-
-
-    // let input;
-    // let searchOptions = displayOption.split(" ")
-    // switch (searchOptions) {
-    //     case "gender":
-    //         input = searchFor("gender")
-    //         break;
-    //     case "height":
-    //        input = searchFor("height")
-    //        break;
-    //     case "weight":
-    //         input = searchFor("weight")
-    //         break;
-    //     case "occupation":
-    //         input = searchFor("occupation")
-    //         break;
-    //     case "dob":
-    //         input = searchFor("dob")
-    //         break;
-    //     case "restart":
-    //         break;
-    //     case "quit":
-    //         break;
-    //     default:
-    //         break;
-    // }
-    // let searchResults = searchBy(displayOption, input, people)
-    // let searchResultsFiltered = listNames(searchResults, "Search Results")
-    // return searchResultsFiltered
-    
 }
 
 function splitInput(string){
@@ -345,6 +310,7 @@ function splitInput(string){
 
 function searchFor(category){
     let input = promptFor(`Enter a ${category}`, chars)
+    
     return input;
 }
 
@@ -379,8 +345,6 @@ function searchByMany(list, people){
     return results
 }
 
-
-
 /**
  * This function's purposeis twofold:
  * First, to generate a prompt with the value passed in to the question parameter.
@@ -414,8 +378,18 @@ function yesNo(input) {
  * @returns {Boolean}           Default validation -- no logic yet.
  */
 function chars(input) {
-    return true; // Default validation only
-}
+    var letters = /^[A-Za-z]+$/;
+    if(input.match(letters))
+     {
+      return true;
+     }
+    else
+     {
+     alert("Invalid input, please use letters only.");
+     return false;
+     }
+  }
+
 // End of chars()
 
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
@@ -423,7 +397,15 @@ function chars(input) {
 
 //Traits validation
 function traitVal(input){
-    return input.toLowerCase().includes("gender") || input.toLowerCase().includes("dob")
-    || input.toLowerCase().includes("height") || input.toLowerCase().includes("weight")
-    || input.toLowerCase().includes("eyeColor") || input.toLowerCase().includes("occupation");
-}
+    var letters = /^[A-Za-z0-9" ":]+$/;
+    if(input.match(letters))
+     {
+      return true;
+     }
+    else
+     {
+     alert("Invalid input, please use A-z, 0-9, and ':' only.");
+     return false;
+     }
+  }
+
