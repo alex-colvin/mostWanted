@@ -255,9 +255,8 @@ function findPersonDescendants(person, people){
 }
 
 function searchByTrait(people){
-    let displayOption = prompt(
-        `You can search for people by their trait.\nEnter a trait:\n"gender"\n"height"\n"weight"\n"occupation"\n"'dob' for date of birth"`
-    );
+    let displayOption = promptFor(
+        `You can search for people by their trait.\nEnter a trait:\n"gender"\n"height"\n"weight"\n"occupation"\n""dob" for date of birth"\n"eyeColor"`, traitVal);
     let input;
     switch (displayOption) {
         case "gender":
@@ -289,8 +288,8 @@ function searchByTrait(people){
 }
 
 function searchByTraits(people){
-    let displayOption = prompt(
-        `You can search for people by their traits.\nEnter a trait:\n"gender"\n"height"\n"weight"\n"occupation"\n"'dob' for date of birth"\n"eyecolor"\nex: weight 180:eyecolor blue`
+    let displayOption = promptFor(
+        `You can search for people by their traits.\nEnter a trait:\n"gender"\n"height"\n"weight"\n"occupation"\n"'dob' for date of birth"\n"eyeColor"\nex: weight 180:eyeColor blue`, traitVal
     );
     let formattedInput = splitInput(displayOption)
 
@@ -345,7 +344,7 @@ function splitInput(string){
 }
 
 function searchFor(category){
-    let input = prompt(`Enter a ${category}`)
+    let input = promptFor(`Enter a ${category}`, chars)
     return input;
 }
 
@@ -421,3 +420,10 @@ function chars(input) {
 
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
+
+//Traits validation
+function traitVal(input){
+    return input.toLowerCase().includes("gender") || input.toLowerCase().includes("dob")
+    || input.toLowerCase().includes("height") || input.toLowerCase().includes("weight")
+    || input.toLowerCase().includes("eyeColor") || input.toLowerCase().includes("occupation");
+}
