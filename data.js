@@ -1,12 +1,38 @@
 /* 
-    |   Author: devCodeCamp
-    |   Description: Most Wanted Starter Code
+|   Author: devCodeCamp
+|   Description: Most Wanted Starter Code
 */
 
 "use strict";
 
 // You may modify this for testing purposes.
 const data = [
+	{
+		"id": 313997561,
+		"firstName": "Ellen",
+		"lastName": "Madden",
+		"gender": "female",
+		"dob": "2/19/1970",
+		"height": 67,
+		"weight": 100,
+		"eyeColor": "blue",
+		"occupation": "doctor",
+		"parents": [],
+		"currentSpouse": 313207561
+	},
+	{
+		"id": 313998000,
+		"firstName": "Joey",
+		"lastName": "Madden",
+		"gender": "female",
+		"dob": "2/02/1987",
+		"height": 67,
+		"weight": 100,
+		"eyeColor": "blue",
+		"occupation": "doctor",
+		"parents": [313207561, 313997561],
+		"currentSpouse": null
+	},
 	{
 		"id": 272822514,
 		"firstName": "Billy",
@@ -266,31 +292,5 @@ const data = [
 		"occupation": "assistant",
 		"parents": [693243224, 888201200],
 		"currentSpouse": 313997561
-	},
-	{
-		"id": 313997561,
-		"firstName": "Ellen",
-		"lastName": "Madden",
-		"gender": "female",
-		"dob": "2/19/1970",
-		"height": 67,
-		"weight": 100,
-		"eyeColor": "blue",
-		"occupation": "doctor",
-		"parents": [],
-		"currentSpouse": 313207561
-	},
-	{
-		"id": 313998000,
-		"firstName": "Joey",
-		"lastName": "Madden",
-		"gender": "female",
-		"dob": "2/02/1987",
-		"height": 67,
-		"weight": 100,
-		"eyeColor": "blue",
-		"occupation": "doctor",
-		"parents": [313207561, 313997561],
-		"currentSpouse": null
 	}
 ];
