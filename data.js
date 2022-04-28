@@ -281,6 +281,45 @@ const data = [
 		"currentSpouse": null
 	},
 	{
+		"id": 969222222,
+		"firstName": "Eloise",
+		"lastName": "Madden Jr",
+		"gender": "female",
+		"dob": "12/11/1961",
+		"height": 63,
+		"weight": 241,
+		"eyeColor": "brown",
+		"occupation": "assistant",
+		"parents": [969837479],
+		"currentSpouse": null
+	},
+	{
+		"id": 969333333,
+		"firstName": "Eloise",
+		"lastName": "Madden III",
+		"gender": "female",
+		"dob": "12/11/1961",
+		"height": 63,
+		"weight": 241,
+		"eyeColor": "brown",
+		"occupation": "assistant",
+		"parents": [969222222],
+		"currentSpouse": null
+	},
+	{
+		"id": 969444444,
+		"firstName": "Eloise",
+		"lastName": "Madden IV",
+		"gender": "female",
+		"dob": "12/11/1961",
+		"height": 63,
+		"weight": 241,
+		"eyeColor": "brown",
+		"occupation": "assistant",
+		"parents": [969333333],
+		"currentSpouse": null
+	},
+	{
 		"id": 313207561,
 		"firstName": "Mattias",
 		"lastName": "Madden",

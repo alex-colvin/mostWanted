@@ -159,7 +159,73 @@ function displayPerson(person) {
     alert(personInfo);
 }
 // End of displayPerson()
-function findPersonFamily(person, people){
+
+
+/**
+ * This function's purposeis twofold:
+ * First, to generate a prompt with the value passed in to the question parameter.
+ * Second, to ensure the user input response has been validated.
+ * @param {String} question     A string that will be passed into prompt().
+ * @param {Function} valid      A callback function used to validate basic user input.
+ * @returns {String}            The valid string input retrieved from the user.
+ */
+function promptFor(question, valid) {
+    do {
+        var response = prompt(question).trim();
+    } while (!response || !valid(response));
+    return response;
+}
+// End of promptFor()
+
+/**
+ * This helper function checks to see if the value passed into input is a "yes" or "no."
+ * @param {String} input        A string that will be normalized via .toLowerCase().
+ * @returns {Boolean}           The result of our condition evaluation.
+ */
+function yesNo(input) {
+    return input.toLowerCase() === "yes" || input.toLowerCase() === "no";
+}
+// End of yesNo()
+
+/**
+ * This helper function operates as a default callback for promptFor's validation.
+ * Feel free to modify this to suit your needs.
+ * @param {String} input        A string.
+ * @returns {Boolean}           Default validation -- no logic yet.
+ */
+function chars(input) {
+    var letters = /^[A-Za-z]+$/;
+    if(input.match(letters))
+     {
+      return true;
+     }
+    else
+     {
+     alert("Invalid input, please use letters only.");
+     return false;
+     }
+  }
+
+// End of chars()
+
+//////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
+// Any additional functions can be written below this line 👇. Happy Coding! 😁
+
+//Traits validation
+function traitVal(input){
+    var letters = /^[A-Za-z0-9" ":]+$/;
+    if(input.match(letters))
+     {
+      return true;
+     }
+    else
+     {
+     alert("Invalid input, please use A-z, 0-9, and ':' only.");
+     return false;
+     }
+  }
+
+  function findPersonFamily(person, people){
     family += findPersonSpouse(person, people)
     family += findPersonSiblings(person, people)
     family += findPersonParents(person, people)
@@ -213,7 +279,7 @@ function findPersonSiblings(person, people){
     let personSiblings = listNames(siblings, 'Siblings:')
     return personSiblings
 }
-function findPersonChildren(person, people){
+function findPersonChildren(person, people, descendants = []){   
     let children = people.filter(function(el){
         if(el.parents.includes(person.id)){
             return true;
@@ -222,36 +288,34 @@ function findPersonChildren(person, people){
             return false;
         }
     })
-    return children
+    if(children.length == 0){
+        return descendants
+    }
+    else{
+        let newDescendants = [];
+        for(let i = 0; i < children.length; i++){
+            if(descendants.includes(children[i]) == false){
+                descendants.push(children[i])
+                newDescendants.push(children[i])
+            }
+        }
+        for(let i = 0; i < newDescendants.length; i++){
+            let newChildren = findPersonChildren(newDescendants[i], people, descendants)
+            if(newChildren != descendants){
+                descendants = newChildren
+            }
+            if(i == (newDescendants.length - 1)){
+                return descendants  
+            }
+        }  
+    }
 }
 function findPersonDescendants(person, people){
-    let descendants = `Descendants:\n`
-    let children = findPersonChildren(person, people)
-    descendants += listNames(children,'Children:');
-    let hasChildren = children.filter(function(el){
-        let grandKid = findPersonChildren(el, people)
-        if (grandKid.length == 0){
-            return false
-        }
-        else{
-            
-            return true
-        }
-    })
-    let grandchildren = hasChildren.map(function(el){
-        let grandKids =
-        findPersonChildren(el, people)
-        return grandKids
-    })
-    
-    // let grandchildren2 = grandchildren.map(function(el){
-    //     let grandKids2 = listNames(grandchildren,'Grandchildren:')
-    //     return grandKids2
-    // })
-    
-    descendants += listNames(grandchildren[0], "Grandchildren")
-    return descendants
+    let descendants = findPersonChildren(person, people)
+    let listedDescendants = listNames(descendants, "Descendants:")
 
+    return listedDescendants
+       
 }
 
 function searchByTrait(people){
@@ -344,68 +408,4 @@ function searchByMany(list, people){
     })
     return results
 }
-
-/**
- * This function's purposeis twofold:
- * First, to generate a prompt with the value passed in to the question parameter.
- * Second, to ensure the user input response has been validated.
- * @param {String} question     A string that will be passed into prompt().
- * @param {Function} valid      A callback function used to validate basic user input.
- * @returns {String}            The valid string input retrieved from the user.
- */
-function promptFor(question, valid) {
-    do {
-        var response = prompt(question).trim();
-    } while (!response || !valid(response));
-    return response;
-}
-// End of promptFor()
-
-/**
- * This helper function checks to see if the value passed into input is a "yes" or "no."
- * @param {String} input        A string that will be normalized via .toLowerCase().
- * @returns {Boolean}           The result of our condition evaluation.
- */
-function yesNo(input) {
-    return input.toLowerCase() === "yes" || input.toLowerCase() === "no";
-}
-// End of yesNo()
-
-/**
- * This helper function operates as a default callback for promptFor's validation.
- * Feel free to modify this to suit your needs.
- * @param {String} input        A string.
- * @returns {Boolean}           Default validation -- no logic yet.
- */
-function chars(input) {
-    var letters = /^[A-Za-z]+$/;
-    if(input.match(letters))
-     {
-      return true;
-     }
-    else
-     {
-     alert("Invalid input, please use letters only.");
-     return false;
-     }
-  }
-
-// End of chars()
-
-//////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
-// Any additional functions can be written below this line 👇. Happy Coding! 😁
-
-//Traits validation
-function traitVal(input){
-    var letters = /^[A-Za-z0-9" ":]+$/;
-    if(input.match(letters))
-     {
-      return true;
-     }
-    else
-     {
-     alert("Invalid input, please use A-z, 0-9, and ':' only.");
-     return false;
-     }
-  }
 
