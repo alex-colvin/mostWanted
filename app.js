@@ -196,7 +196,7 @@ function chars(input) {
      alert("Invalid input, please use letters only.");
      return false;
      }
-  }
+}
 
 // End of chars()
 
@@ -216,7 +216,7 @@ function traitVal(input){
      alert("Invalid input, please use A-z, 0-9, ':' and at least one category name.");
      return false;
      }
-  }
+}
 
   function findPersonFamily(person, people){
     let family = `${person.firstName} ${person.lastName}'s family members are:`
@@ -225,6 +225,7 @@ function traitVal(input){
     family += findPersonParents(person, people);
     return family;
 }
+
 function listNames(people, relationship){
     let nameList = people.map(function(el){
         return `\n${el.firstName} ${el.lastName}`;
@@ -237,6 +238,7 @@ function listNames(people, relationship){
     }
 
 }
+
 function findPersonSpouse(person, people){
     let spouse = people.filter(function(el){
         if(person.currentSpouse == el.id){
@@ -249,6 +251,7 @@ function findPersonSpouse(person, people){
     let spouseList = listNames(spouse, 'Spouse:');
     return spouseList;
 }
+
 function findPersonParents(person, people){
     let parents = people.filter(function(el){
         if(person.parents.includes(el.id)){
@@ -261,6 +264,7 @@ function findPersonParents(person, people){
     let parentList = listNames(parents, 'Parents:');
     return parentList;
 }
+
 function findPersonSiblings(person, people){
     let siblings = people.filter(function(el){
         if((person.parents.includes(el.parents[0]) || person.parents.includes(el.parents[1])) && person.id != el.id){
@@ -273,6 +277,7 @@ function findPersonSiblings(person, people){
     let personSiblings = listNames(siblings, 'Siblings:');
     return personSiblings;
 }
+
 function findPersonChildren(person, people, descendants = []){   
     let children = people.filter(function(el){
         if(el.parents.includes(person.id)){
@@ -304,6 +309,7 @@ function findPersonChildren(person, people, descendants = []){
         }  
     }
 }
+
 function findPersonDescendants(person, people){
     let descendants = findPersonChildren(person, people);
     let listedDescendants = listNames(descendants, "Descendants:");
@@ -331,18 +337,6 @@ function searchFor(category){
     let input = promptFor(`Enter a ${category}`, chars);
     
     return input;
-}
-
-function searchBy(category, argument, people){
-    let results = people.filter(function(el){
-        if(el[category] == argument){
-            return true;
-        }
-        else{
-            return false;
-        }
-    })
-    return results;
 }
 
 function searchByMany(list, people){
